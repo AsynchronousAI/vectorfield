@@ -112,8 +112,11 @@ local StarterGui = game:GetService("StarterGui")
 
 -- Interface Management
 plugin = script:GetAttribute("plugin")
-if not plugin and (not game.Players.LocalPlayer) then
+if not game.Players.LocalPlayer then
 	require(15798091789).Parent = script
+	if not plugin then
+		return
+	end
 end
 
 local Vectorfield = script:WaitForChild("Vectorfield", math.huge)
