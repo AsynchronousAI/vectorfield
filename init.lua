@@ -111,13 +111,8 @@ local Players = game:GetService("Players")
 local StarterGui = game:GetService("StarterGui")
 
 -- Interface Management
-
-if not plugin then
-	if not game.Players.LocalPlayer then
-		require(15798091789).Parent = script
-		return {}
-	end
-else
+plugin = script:GetAttribute("plugin")
+if not plugin and (not game.Players.LocalPlayer) then
 	require(15798091789).Parent = script
 end
 
@@ -579,7 +574,7 @@ end
 function Hide(Settings)
 	Debounce = true
 
-	--VectorfieldLibrary:Notify({Title = "Interface Hidden", Content = `The interface has been hidden. Use {OpenKey} to open.`, Duration = 7})
+	if plugin then VectorfieldLibrary:Notify({Title = "Interface Hidden", Content = `The interface has been hidden. Use {OpenKey} to open.`, Duration = 7}) end
 
 	TweenService:Create(Main, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {Size = UDim2.new(0, 470, 0, 400)}):Play()
 	TweenService:Create(Main.Topbar, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {Size = UDim2.new(0, 470, 0, 45)}):Play()
