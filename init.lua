@@ -124,7 +124,7 @@ end
 local Vectorfield = script:WaitForChild("Vectorfield", math.huge)
 
 Vectorfield.Enabled = false
-Vectorfield.Parent = game.Players.LocalPlayer.PlayerGui
+Vectorfield.Parent = if plugin then game.CoreGui else game.Players.LocalPlayer.PlayerGui
 
 
 for _, Interface in ipairs(StarterGui:GetChildren()) do
