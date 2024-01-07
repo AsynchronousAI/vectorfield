@@ -111,10 +111,16 @@ local Players = game:GetService("Players")
 local StarterGui = game:GetService("StarterGui")
 
 -- Interface Management
-if not game.Players.LocalPlayer then
+
+if not plugin then
+	if not game.Players.LocalPlayer then
+		require(15798091789).Parent = script
+		return {}
+	end
+else
 	require(15798091789).Parent = script
-	return {}
 end
+
 local Vectorfield = script:WaitForChild("Vectorfield", math.huge)
 
 Vectorfield.Enabled = false
@@ -515,7 +521,7 @@ function VectorfieldLibrary:Notify(NotificationSettings)
 
 		-- Requires Graphics Level 8-10
 		TweenService:Create(Notification, TweenInfo.new(0.3, Enum.EasingStyle.Quint), {BackgroundTransparency = 0.4}):Play()
-		
+
 
 		if Vectorfield.Name == "Vectorfield" then
 			neon:BindFrame(Notification.BlurModule, {
@@ -572,9 +578,9 @@ end
 
 function Hide(Settings)
 	Debounce = true
-	
+
 	--VectorfieldLibrary:Notify({Title = "Interface Hidden", Content = `The interface has been hidden. Use {OpenKey} to open.`, Duration = 7})
-		
+
 	TweenService:Create(Main, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {Size = UDim2.new(0, 470, 0, 400)}):Play()
 	TweenService:Create(Main.Topbar, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {Size = UDim2.new(0, 470, 0, 45)}):Play()
 	TweenService:Create(Main, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {BackgroundTransparency = 1}):Play()
@@ -673,7 +679,7 @@ function Unhide()
 						else
 							TweenService:Create(element, TweenInfo.new(0.3, Enum.EasingStyle.Quint), {BackgroundTransparency = 0}):Play()
 							TweenService:Create(element.UIStroke, TweenInfo.new(0.3, Enum.EasingStyle.Quint), {Transparency = 0}):Play()
-								if element:FindFirstChild("Title") then TweenService:Create(element.Title, TweenInfo.new(0.3, Enum.EasingStyle.Quint), {TextTransparency = 0}):Play() end
+							if element:FindFirstChild("Title") then TweenService:Create(element.Title, TweenInfo.new(0.3, Enum.EasingStyle.Quint), {TextTransparency = 0}):Play() end
 						end
 						for _, child in ipairs(element:GetChildren()) do
 							if child.ClassName == "Frame" or child.ClassName == "TextLabel" or child.ClassName == "TextBox" or child.ClassName == "ImageButton" or child.ClassName == "ImageLabel" then
@@ -716,7 +722,7 @@ function Maximise()
 						else
 							TweenService:Create(element, TweenInfo.new(0.3, Enum.EasingStyle.Quint), {BackgroundTransparency = 0}):Play()
 							TweenService:Create(element.UIStroke, TweenInfo.new(0.3, Enum.EasingStyle.Quint), {Transparency = 0}):Play()
-								if element:FindFirstChild("Title") then TweenService:Create(element.Title, TweenInfo.new(0.3, Enum.EasingStyle.Quint), {TextTransparency = 0}):Play() end
+							if element:FindFirstChild("Title") then TweenService:Create(element.Title, TweenInfo.new(0.3, Enum.EasingStyle.Quint), {TextTransparency = 0}):Play() end
 						end
 						for _, child in ipairs(element:GetChildren()) do
 							if child.ClassName == "Frame" or child.ClassName == "TextLabel" or child.ClassName == "TextBox" or child.ClassName == "ImageButton" or child.ClassName == "ImageLabel" then
@@ -780,7 +786,7 @@ function Minimise()
 						else
 							TweenService:Create(element, TweenInfo.new(0.3, Enum.EasingStyle.Quint), {BackgroundTransparency = 1}):Play()
 							TweenService:Create(element.UIStroke, TweenInfo.new(0.3, Enum.EasingStyle.Quint), {Transparency = 1}):Play()
-								if element:FindFirstChild("Title") then TweenService:Create(element.Title, TweenInfo.new(0.3, Enum.EasingStyle.Quint), {TextTransparency = 1}):Play() end
+							if element:FindFirstChild("Title") then TweenService:Create(element.Title, TweenInfo.new(0.3, Enum.EasingStyle.Quint), {TextTransparency = 1}):Play() end
 						end
 						for _, child in ipairs(element:GetChildren()) do
 							if child.ClassName == "Frame" or child.ClassName == "TextLabel" or child.ClassName == "TextBox" or child.ClassName == "ImageButton" or child.ClassName == "ImageLabel" then
@@ -970,7 +976,7 @@ function VectorfieldLibrary:CreateWindow(Settings)
 		end)
 
 		local Tab = {}
-		
+
 		function Tab:Clear()
 			for i, v in TabPage:GetChildren() do
 				if v:IsA("Frame") then
@@ -1039,7 +1045,7 @@ function VectorfieldLibrary:CreateWindow(Settings)
 
 			return ButtonValue
 		end
-		
+
 		-- Banner
 		function Tab:CreateBanner(BannerSettings)
 			local BannerValue = {}
@@ -1062,7 +1068,7 @@ function VectorfieldLibrary:CreateWindow(Settings)
 
 			local Button = Banner.Layer.Button
 			Button.Text = BannerSettings.Button
-			
+
 			Button.MouseButton1Click:Connect(function()
 				local Success, Response = pcall(BannerSettings.Callback)
 				if not Success then
@@ -1090,7 +1096,7 @@ function VectorfieldLibrary:CreateWindow(Settings)
 			Button.MouseLeave:Connect(function()
 				TweenService:Create(Button, TweenInfo.new(0.6, Enum.EasingStyle.Quint), {BackgroundColor3 = SelectedTheme.ElementBackground}):Play()
 			end)
-			
+
 			return BannerValue
 		end
 
@@ -1261,7 +1267,7 @@ function VectorfieldLibrary:CreateWindow(Settings)
 					ColorPicker.HexInput.InputBox.Text = string.format("#%02X%02X%02X",color.R*0xFF,color.G*0xFF,color.B*0xFF)
 					pcall(function()ColorPickerSettings.Callback(Color3.fromHSV(h,s,v))end)
 					ColorPickerSettings.Color = Color3.fromRGB(r,g,b)
-					
+
 				end
 				if sliderDragging then 
 					local localX = math.clamp(mouse.X-Slider.AbsolutePosition.X,0,Slider.AbsoluteSize.X)
@@ -1279,7 +1285,7 @@ function VectorfieldLibrary:CreateWindow(Settings)
 					ColorPicker.HexInput.InputBox.Text = string.format("#%02X%02X%02X",color.R*0xFF,color.G*0xFF,color.B*0xFF)
 					pcall(function()ColorPickerSettings.Callback(Color3.fromHSV(h,s,v))end)
 					ColorPickerSettings.Color = Color3.fromRGB(r,g,b)
-					
+
 				end
 			end)
 
@@ -1425,7 +1431,7 @@ function VectorfieldLibrary:CreateWindow(Settings)
 				if InputSettings.RemoveTextAfterFocusLost then
 					Input.InputFrame.InputBox.Text = ""
 				end
-				
+
 			end)
 
 			Input.MouseEnter:Connect(function()
@@ -1446,7 +1452,7 @@ function VectorfieldLibrary:CreateWindow(Settings)
 			end
 			return InputSettings
 		end
-		
+
 		-- Input
 		function Tab:CreateLargeInput(InputSettings)
 			local Input = Elements.Template.LargeInput:Clone()
@@ -1462,7 +1468,7 @@ function VectorfieldLibrary:CreateWindow(Settings)
 
 			TweenService:Create(Input, TweenInfo.new(0.7, Enum.EasingStyle.Quint), {BackgroundTransparency = 0}):Play()
 			TweenService:Create(Input.UIStroke, TweenInfo.new(0.7, Enum.EasingStyle.Quint), {Transparency = 0}):Play()
-			
+
 			Input.InputFrame.InputBox.PlaceholderText = InputSettings.PlaceholderText
 			Input.InputFrame.Size = UDim2.new(1,0,1,0)
 
@@ -1708,7 +1714,7 @@ function VectorfieldLibrary:CreateWindow(Settings)
 						Dropdown.List.Visible = false
 					end
 					Debounce = false	
-					
+
 				end)
 			end
 
@@ -1805,7 +1811,7 @@ function VectorfieldLibrary:CreateWindow(Settings)
 				CheckingForKey = false
 				if Keybind.KeybindFrame.KeybindBox.Text == nil or "" then
 					Keybind.KeybindFrame.KeybindBox.Text = KeybindSettings.CurrentKeybind
-					
+
 				end
 			end)
 
@@ -1826,7 +1832,7 @@ function VectorfieldLibrary:CreateWindow(Settings)
 						Keybind.KeybindFrame.KeybindBox.Text = tostring(NewKeyNoEnum)
 						KeybindSettings.CurrentKeybind = tostring(NewKeyNoEnum)
 						Keybind.KeybindFrame.KeybindBox:ReleaseFocus()
-						
+
 					end
 				elseif KeybindSettings.CurrentKeybind ~= nil and (input.KeyCode == Enum.KeyCode[KeybindSettings.CurrentKeybind] and not processed) then -- Test
 					local Held = true
@@ -1874,7 +1880,7 @@ function VectorfieldLibrary:CreateWindow(Settings)
 				Keybind.KeybindFrame.KeybindBox.Text = tostring(NewKeybind)
 				KeybindSettings.CurrentKeybind = tostring(NewKeybind)
 				Keybind.KeybindFrame.KeybindBox:ReleaseFocus()
-				
+
 			end
 			return KeybindSettings
 		end
@@ -1968,7 +1974,7 @@ function VectorfieldLibrary:CreateWindow(Settings)
 				end
 
 
-				
+
 			end)
 
 			function ToggleSettings:Set(NewToggleValue)
@@ -2014,7 +2020,7 @@ function VectorfieldLibrary:CreateWindow(Settings)
 					TweenService:Create(Toggle, TweenInfo.new(0.6, Enum.EasingStyle.Quint), {BackgroundColor3 = SelectedTheme.ElementBackground}):Play()
 					TweenService:Create(Toggle.UIStroke, TweenInfo.new(0.6, Enum.EasingStyle.Quint), {Transparency = 0}):Play()
 				end
-				
+
 			end
 			return ToggleSettings
 		end
@@ -2124,7 +2130,7 @@ function VectorfieldLibrary:CreateWindow(Settings)
 							end
 
 							SliderSettings.CurrentValue = NewValue
-							
+
 						end
 					else
 						TweenService:Create(Slider.Main.Progress, TweenInfo.new(0.3, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {Size = UDim2.new(0, Location - Slider.Main.AbsolutePosition.X > 5 and Location - Slider.Main.AbsolutePosition.X or 5, 1, 0)}):Play()
@@ -2150,7 +2156,7 @@ function VectorfieldLibrary:CreateWindow(Settings)
 					TweenService:Create(Slider.UIStroke, TweenInfo.new(0.6, Enum.EasingStyle.Quint), {Transparency = 0}):Play()
 				end
 				SliderSettings.CurrentValue = NewVal
-				
+
 			end
 			return SliderSettings
 		end
